@@ -1,0 +1,5 @@
+class <%= model_name %> < ActiveRecord::Base
+
+  attr_accessible <%= fields.map(&:name).join(', ') %>
+
+end

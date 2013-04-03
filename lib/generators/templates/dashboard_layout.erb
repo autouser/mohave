@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= application_name.camelize %>::<%= dashboard_classname %></title>
+  <%%= stylesheet_link_tag    "<%= @dashboard_classpath %>", :media => "all" %%>
+  <%%= javascript_include_tag "<%= @dashboard_classpath %>" %%>
+  <%%= csrf_meta_tags %%>
+</head>
+<body>
+
+  <%%= yield %%>
+  
+</div>
+
+</body>
+</html>
