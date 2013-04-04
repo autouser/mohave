@@ -1,7 +1,10 @@
 class <%= resource_classname %>Controller < <%= dashboard_classname %>::BaseController
 
-  def index
-    
-  end
+<%- actions.each do |action| -%>
+def <%= action %>
+
+end
+
+<%- end -%>
 
 end

@@ -3,7 +3,7 @@ require 'rails/generators/migration'
 require 'rails/generators/generated_attribute'
 
 module Dashboard
-  class ControllerGenerator < Rails::Generators::Base
+  class EntityGenerator < Rails::Generators::Base
 
     include Rails::Generators::Migration
 
@@ -11,8 +11,12 @@ module Dashboard
 
     argument :dashboard_name, :type => 'string', :required => true
     argument :name, :type => 'string', :required => true
-    argument :actions_and_fields, :type => :array, :default => [], :banner => 'controller_actions and model:attributes'
+    argument :actions_and_fields, :type => :array, :default => [], :banner => 'controller actions and model attributes'
 
+    class_option :controller, :type => :boolean, :default => true, :description => "Generate entity's controller"
+    class_option :view, :type => :boolean, :default => true, :description => "Generate entity's controller views"
+    class_option :model, :type => :boolean, :default => true, :description => "Generate entity's model"
+    class_option :migration, :type => :boolean, :default => true, :description => "Generate entity's model migration"
 
     def process_actions_and_fields
 
@@ -32,19 +36,20 @@ module Dashboard
     end
 
     def create_model
-      template "model.erb", "app/models/#{model_path}.rb"   
+      template "model.erb", "app/models/#{model_path}.rb" if options.model?
     end
 
     def create_migration
-      migration_template('model_migration.erb', "db/migrate/create_#{migration_path}.rb")
+      migration_template('model_migration.erb', "db/migrate/create_#{migration_path}.rb") if options.migration?
     end
 
     def create_controller
-      template "controller.erb", "app/controllers/#{dashboard_classpath}/#{resource_path}_controller.rb"
+      template "controller.erb", "app/controllers/#{dashboard_classpath}/#{resource_path}_controller.rb" if options.controller?
     end
 
     def create_views
-      if @actions.present?
+      return unless options.controller?
+      if @actions.present? && options.view?
         generate_form_partial = true
         @actions.each do |action|
           @action = action

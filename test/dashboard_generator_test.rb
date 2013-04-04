@@ -3,6 +3,9 @@ require 'generators/dashboard_generator'
 
 class DashboardGeneratorTest < Rails::Generators::TestCase
 
+  tests DashboardGenerator
+  destination File.expand_path("../tmp", File.dirname(__FILE__))
+
   context "DashboardGenerator" do
     
     setup do
@@ -12,11 +15,11 @@ class DashboardGeneratorTest < Rails::Generators::TestCase
 
     context "default behavior" do
 
-      tests DashboardGenerator
-      destination File.expand_path("../tmp", File.dirname(__FILE__))
+      setup do
+        run_generator %w(admin)
+      end
 
       should "generate dashboard base" do
-        run_generator %w(admin)
         assert_file "app/controllers/admin/base_controller.rb" do |content|
           assert_match /^class Admin::BaseController < ApplicationController/, content, "should define class"
           assert_match /layout\s+'admin'/, content, "should add layout"
@@ -24,7 +27,6 @@ class DashboardGeneratorTest < Rails::Generators::TestCase
       end
 
       should "generate dashboard controller" do
-        run_generator %w(admin)
         assert_file "app/controllers/admin/dashboard_controller.rb" do |content|
           assert_instance_method :index, content
           assert_match /^class Admin::DashboardController < Admin::BaseController/, content, "should define class"
@@ -32,7 +34,6 @@ class DashboardGeneratorTest < Rails::Generators::TestCase
       end
 
       should "generate dashboard layout" do
-        run_generator %w(admin)
         assert_file "app/views/layouts/admin.html.erb" do |content|
           assert_match /<title>Dummy::Admin<\/title>/, content, "should set title"
           assert_match /stylesheet_link_tag\s+"admin"/, content, "should set stylesheet_link_tag"
@@ -41,14 +42,12 @@ class DashboardGeneratorTest < Rails::Generators::TestCase
       end
 
       should "generate dashboard css" do
-        run_generator %w(admin)
         assert_file "app/assets/admin.css" do |content|
           assert_match /\/\//, content, "should not be empty"
         end
       end
 
       should "generate dashboard javascript" do
-        run_generator %w(admin)
         assert_file "app/assets/admin.js" do |content|
           assert_match /\/\*/, content, "should not be empty"
         end
