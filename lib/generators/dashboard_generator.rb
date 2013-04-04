@@ -6,6 +6,8 @@ class DashboardGenerator < Rails::Generators::Base
 
   argument :name, :type => 'string', :required => true
   class_option :layout, :type => :boolean, :default => true, :description => "Generate dashboard layout"
+  class_option :css, :type => :boolean, :default => true, :description => "Generate dashboard stylesheet"
+  class_option :javascript, :type => :boolean, :default => true, :description => "Generate dashboard javascript"
 
 
   def create_dashboard
@@ -15,8 +17,19 @@ class DashboardGenerator < Rails::Generators::Base
 
   def create_layout
     if options.layout?
-      template "dashboard_layout.erb", "app/views/layouts/#{dashboard_classpath}.html.rb"
+      template "dashboard_layout.erb", "app/views/layouts/#{dashboard_classpath}.html.erb"
+    end
+  end
+
+  def create_css
+    if options.css?
       template "dashboard_css.erb", "app/assets/#{dashboard_classpath}.css"
+    end
+  end
+
+  def create_javascript
+    if options.css?
+      template "dashboard_js.erb", "app/assets/#{dashboard_classpath}.js"
     end
   end
 

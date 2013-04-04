@@ -1,6 +1,6 @@
 class <%= dashboard_classname %>::BaseController < ApplicationController
 
-  <% options.layout? ? 'layout "dashboard_classpath"' : '' -%>
+  <%= options.layout? ? "layout '#{dashboard_classpath}'" : '' -%>
 
   # Put any shared things here.
   # All dashboards' controllers derives from this class.
