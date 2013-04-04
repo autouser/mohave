@@ -28,7 +28,7 @@ class DashboardGenerator < Rails::Generators::Base
   end
 
   def create_javascript
-    if options.css?
+    if options.javascript?
       template "dashboard_js.erb", "app/assets/#{dashboard_classpath}.js"
     end
   end

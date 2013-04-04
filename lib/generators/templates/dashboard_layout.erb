@@ -5,7 +5,9 @@
   <%- if options.css -%>
   <%%= stylesheet_link_tag    "<%= dashboard_classpath %>", :media => "all" %%>
   <%- end -%>
+  <%- if options.javascript -%>
   <%%= javascript_include_tag "<%= dashboard_classpath %>" %%>
+  <%- end -%>
   <%%= csrf_meta_tags %%>
 </head>
 <body>

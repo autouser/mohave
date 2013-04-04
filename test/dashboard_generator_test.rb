@@ -67,6 +67,22 @@ class DashboardGeneratorTest < Rails::Generators::TestCase
         end
       end
 
+      should "skip css" do
+        run_generator %w(admin --skip-css)
+        assert_no_file "app/views/assets/admin.css"
+        assert_file "app/views/layouts/admin.html.erb" do |content|
+          assert_no_match /stylesheet_link_tag\s+"admin"/, content, "should skip stylesheet_link_tag"
+        end
+      end
+
+      should "skip javascript" do
+        run_generator %w(admin --skip-javascript)
+        assert_no_file "app/views/assets/admin.js"
+        assert_file "app/views/layouts/admin.html.erb" do |content|
+          assert_no_match /javascript_include_tag\s+"admin"/, content, "should skip javascript_include_tag"
+        end
+      end
+
     end
 
   end
